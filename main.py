@@ -93,10 +93,17 @@ def jugadorvsjugador():
         if player1_puntuacion + player2_puntuacion >= (filas * columnas) // 2 :
             print("Juego Terminado")
 
-            
+            if player1_puntuacion > player2_puntuacion:
+                print("Felicidades ", Jugador1," has ganado con ", player1_puntuacion, "puntos")
+            else:
+                print("Felicidades ", Jugador2," has ganado con ", player2_puntuacion, "puntos")
 
-
-            opcionjuego()
+            SN = input("¿Volver a jugar? S/N: ")
+            if SN == "S":
+                opcionjuego()
+            else:
+                print("Saliendo del juego...")
+                break
             
 def opcionjuego():
     print("Bienvenido a Memory \n1- Jugador vs Jugador \n2- Jugador vs Maquina \n3- Maquina vs Maquina \n4- Salir")
