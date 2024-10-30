@@ -34,7 +34,6 @@ def imprimir_tablero(tablero):
                 print(f" {celda}", end=" ")
         print()
 
-
 def jugadorvsjugador():
     Jugador1 = input("Introduce el nombre del Jugador 1: ")
     Jugador2 = input("Introduce el nombre del Jugador 2: ")
@@ -90,7 +89,10 @@ def jugadorvsjugador():
                 
         print(Jugador1, ": ", player1_puntuacion, "        ", Jugador2, ": ", player2_puntuacion)
 
+       
+
         if player1_puntuacion + player2_puntuacion >= (filas * columnas) // 2 :
+
             print("Juego Terminado")
 
             if player1_puntuacion > player2_puntuacion:
@@ -104,6 +106,7 @@ def jugadorvsjugador():
             else:
                 print("Saliendo del juego...")
                 break
+        enter = input("\nPulsa Enter para continuar...")
             
 def opcionjuego():
     print("Bienvenido a Memory \n1- Jugador vs Jugador \n2- Jugador vs Maquina \n3- Maquina vs Maquina \n4- Salir")
@@ -125,9 +128,6 @@ def opcionjuego():
             case _:
                 print("Opción no válida. Inténtalo de nuevo.")
                 break
-
-
-
 
 
 print("Bienvenido a Memory, vamos a crear el tablero lo primero")
