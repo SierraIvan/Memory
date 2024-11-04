@@ -1,4 +1,6 @@
 import random
+from colorama import Fore, Style, init
+
 
 # Función para crear el tablero con emojis y el tablero oculto
 def crear_tablero(filas, columnas):
@@ -47,27 +49,29 @@ def jugadorvsjugador():
         else:
             print("Turno de ", Jugador2)
         
-        # Imprimir el tablero actual
         print("\nTablero actual:")
         imprimir_tablero(tablero_oculto)
-
-        # Pedimos la primera posición que queremos revelar
-        fila_revelar1 = int(input("\nIntroduce la fila para revelar (0 - " + str(filas - 1) + "): "))
-        columna_revelar1 = int(input("Introduce la columna para revelar (0 - " + str(columnas - 1) + "): "))
+        fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas ) + "): "))
+        columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
         
-        # Guardamos el primer valor y lo mostramos en el tablero
+        fila_revelar1 = fila_revelar1 - 1
+        columna_revelar1 = columna_revelar1 -1 
+
+
         item1 = tablero[fila_revelar1][columna_revelar1]
         tablero_oculto[fila_revelar1][columna_revelar1] = item1
 
-        # Imprimir el tablero actualizado con la primera posición revelada
+
         print("\nTablero después de revelar la primera posición:")
         imprimir_tablero(tablero_oculto)
 
-        # Pedimos la segunda posición que queremos revelar
-        fila_revelar2 = int(input("\nIntroduce la fila para revelar (0 - " + str(filas - 1) + "): "))
-        columna_revelar2 = int(input("Introduce la columna para revelar (0 - " + str(columnas - 1) + "): "))
+
+        fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
+        columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
         
-        # Guardamos el segundo valor y lo mostramos en el tablero
+        fila_revelar2 = fila_revelar2 - 1
+        columna_revelar2 =  columna_revelar2 -1
+        
         item2 = tablero[fila_revelar2][columna_revelar2]
         tablero_oculto[fila_revelar2][columna_revelar2] = item2
 
@@ -126,30 +130,36 @@ def jugadorvscpu():
             imprimir_tablero(tablero_oculto)
 
             # Pedimos la primera posición que queremos revelar
-            fila_revelar1 = int(input("\nIntroduce la fila para revelar (0 - " + str(filas - 1) + "): "))
-            columna_revelar1 = int(input("Introduce la columna para revelar (0 - " + str(columnas - 1) + "): "))
+            fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas ) + "): "))
+            columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
             
-            # Guardamos el primer valor y lo mostramos en el tablero
+            fila_revelar1 = fila_revelar1 - 1
+            columna_revelar1 = columna_revelar1 -1 
+
+
             item1 = tablero[fila_revelar1][columna_revelar1]
             tablero_oculto[fila_revelar1][columna_revelar1] = item1
 
-            # Imprimir el tablero actualizado con la primera posición revelada
+
             print("\nTablero después de revelar la primera posición:")
             imprimir_tablero(tablero_oculto)
 
-            # Pedimos la segunda posición que queremos revelar
-            fila_revelar2 = int(input("\nIntroduce la fila para revelar (0 - " + str(filas - 1) + "): "))
-            columna_revelar2 = int(input("Introduce la columna para revelar (0 - " + str(columnas - 1) + "): "))
+
+            fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
+            columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
             
-            # Guardamos el segundo valor y lo mostramos en el tablero
-            item2 = tablero[fila_revelar2][columna_revelar2]
+            fila_revelar2 = fila_revelar2 - 1
+            columna_revelar2 =  columna_revelar2 -1
+
+
+            item2 = tablero[fila_revelar2 ][columna_revelar2]
             tablero_oculto[fila_revelar2][columna_revelar2] = item2
 
-            # Imprimir el tablero con ambas posiciones reveladas
+
             print("\nTablero después de revelar ambas posiciones:")
             imprimir_tablero(tablero_oculto)
 
-        if jugador_actual == False:
+        if not jugador_actual:
             fila_revelar1 = random.randint(0,filas - 1)
             columna_revelar1 = random.randint(0,columnas - 1)
             
@@ -197,16 +207,44 @@ def jugadorvscpu():
                 break
         enter = input("\nPulsa Enter para continuar...")
 
-     
 
 
+def cpuvscpu():
+    print("hola")
 
+def reglas(): 
+    print("\n\n")
+    print("Las partidas son por turnos \nSi el jugador acierta una pareja en su truno, continua \nsi falla perdera el turno \n\nEl jugador que mas puntos tenga cuando se \ndescubra todo el tablero, ganara")
+
+    SN =  input("¿Quieres jugar? S/N: ")
+    if(SN == "S"):
+        opcionjuego()
 
 def opcionjuego():
-    print("Bienvenido a Memory \n1- Jugador vs Jugador \n2- Jugador vs Maquina \n3- Maquina vs Maquina \n4- Salir")
-    opcion = int(input("Dime que quieres jugar: "))
+    
+# Inicializar colorama
+    init(autoreset=True)
+
+    # Crear el menú estilizado
+    print(f"{Style.BRIGHT}{Fore.CYAN}{'=' * 40}")
+    print(f"{Fore.GREEN}{Style.BRIGHT}      ** BIENVENIDO A MEMORY **")
+    print(f"{Style.RESET_ALL}{Fore.CYAN}{'=' * 40}\n")
+
+    # Opciones del menú
+    print(f"{Fore.YELLOW}0 - {Style.BRIGHT}¿Cómo se juega?")
+    print(f"{Fore.YELLOW}1 - {Style.BRIGHT}Jugador vs Jugador")
+    print(f"{Fore.YELLOW}2 - {Style.BRIGHT}Jugador vs Máquina")
+    print(f"{Fore.YELLOW}3 - {Style.BRIGHT}Máquina vs Máquina")
+    print(f"{Fore.YELLOW}4 - {Style.BRIGHT}Salir")
+
+    # Línea decorativa al final
+    print(f"\n{Fore.CYAN}{'=' * 40}")
+    opcion = int(input("que opcion eliges: "))
     while True:
         match opcion:
+            case 0:
+                reglas()
+                break
             case 1: 
                 jugadorvsjugador()
                 break
@@ -214,7 +252,7 @@ def opcionjuego():
                 jugadorvscpu()
                 break
             case 3:
-                print("Máquina vs Máquina aún no implementado.")
+                cpuvscpu()
                 break
             case 4:
                 print("Saliendo del juego...")
