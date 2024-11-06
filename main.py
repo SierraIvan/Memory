@@ -2,20 +2,17 @@ import random
 from colorama import Fore, Style, init
 
 
-# Función para crear el tablero con emojis y el tablero oculto
+
 def crear_tablero(filas, columnas):
     lista_emotes = ["🤣", "😉", "😍", "😘", "🤑", "🥵", "🤔", "😎", "😲", "😭", "😞", "😴", "🤒", "🤢", "🥶"]
     lista = []
     num_pares = (filas * columnas) // 2
 
-    # Generamos los pares de emojis
     for i in range(num_pares):
         lista.extend([lista_emotes[i], lista_emotes[i]])
 
-    # Desordenamos la lista para que sea aleatorio
     random.shuffle(lista)
 
-    # Transformamos la lista plana en un tablero 2D de acuerdo a las filas y columnas dadas
     tablero = [lista[i * columnas:(i + 1) * columnas] for i in range(filas)]
     tablero_oculto = [["-" for _ in range(columnas)] for _ in range(filas)]
 
@@ -25,7 +22,7 @@ def mostrartablero():
     for fila in tablero:
         for celda in fila:
             print(" ", celda, end=" ")
-        print()  # Salto de línea al final de cada fila
+        print()
 
 def imprimir_tablero(tablero):
     for fila in tablero:
@@ -51,41 +48,50 @@ def jugadorvsjugador():
         
         print("\nTablero actual:")
         imprimir_tablero(tablero_oculto)
-        fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas ) + "): "))
-        columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
-        
-        fila_revelar1 = fila_revelar1 - 1
-        columna_revelar1 = columna_revelar1 -1 
+
+        distinta = False
+        while distinta == False:
+            fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas ) + "): "))
+            columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
+            
+
+            fila_revelar1 = fila_revelar1 - 1
+            columna_revelar1 = columna_revelar1 -1 
 
 
-        item1 = tablero[fila_revelar1][columna_revelar1]
-        tablero_oculto[fila_revelar1][columna_revelar1] = item1
+            item1 = tablero[fila_revelar1][columna_revelar1]
+            tablero_oculto[fila_revelar1][columna_revelar1] = item1
 
 
-        print("\nTablero después de revelar la primera posición:")
-        imprimir_tablero(tablero_oculto)
+            print("\nTablero después de revelar la primera posición:")
+            imprimir_tablero(tablero_oculto)
 
 
-        fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
-        columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
-        
-        fila_revelar2 = fila_revelar2 - 1
-        columna_revelar2 =  columna_revelar2 -1
+            fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
+            columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
+
+            
+            fila_revelar2 = fila_revelar2 - 1
+            columna_revelar2 =  columna_revelar2 -1
+
+            if fila_revelar1 == fila_revelar2 and columna_revelar1 == columna_revelar2:
+                print("elige una posicion distinta")
+                tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = "-", "-"
+            else:
+                distinta = True
         
         item2 = tablero[fila_revelar2][columna_revelar2]
         tablero_oculto[fila_revelar2][columna_revelar2] = item2
 
-        # Imprimir el tablero con ambas posiciones reveladas
         print("\nTablero después de revelar ambas posiciones:")
         imprimir_tablero(tablero_oculto)
 
-        # Verificar si los dos items son iguales
         if item1 == item2:
             print("Felicidades, pareja encontrada")
             if jugador_actual:
-                player1_puntuacion += 1
+                player1_puntuacion += 2
             else:
-                player2_puntuacion += 1
+                player2_puntuacion += 2
         else:
             print("Has fallado, se cambia de turno.")
             tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = "-", "-"
@@ -95,7 +101,7 @@ def jugadorvsjugador():
 
        
 
-        if player1_puntuacion + player2_puntuacion >= (filas * columnas) // 2 :
+        if player1_puntuacion + player2_puntuacion >= (filas * columnas) :
 
             print("Juego Terminado")
 
@@ -104,7 +110,7 @@ def jugadorvsjugador():
             else:
                 print("Felicidades ", Jugador2," has ganado con ", player2_puntuacion, "puntos")
 
-            SN = input("¿Volver a jugar? S/N: ")
+            SN = input("¿Volver a jugar? S/N: ").upper
             if SN == "S":
                 opcionjuego()
             else:
@@ -124,88 +130,91 @@ def jugadorvscpu():
         else:
             print("Turno de la maquina")
         
-        # Imprimir el tablero actual
         if jugador_actual:
             print("\nTablero actual:")
             imprimir_tablero(tablero_oculto)
+            distinta = False
+            while not distinta:
+                fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
+                columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
+                
+                fila_revelar1 -= 1
+                columna_revelar1 -= 1
 
-            # Pedimos la primera posición que queremos revelar
-            fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas ) + "): "))
-            columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
-            
-            fila_revelar1 = fila_revelar1 - 1
-            columna_revelar1 = columna_revelar1 -1 
+                item1 = tablero[fila_revelar1][columna_revelar1]
+                tablero_oculto[fila_revelar1][columna_revelar1] = item1
 
+                print("\nTablero después de revelar la primera posición:")
+                imprimir_tablero(tablero_oculto)
 
-            item1 = tablero[fila_revelar1][columna_revelar1]
-            tablero_oculto[fila_revelar1][columna_revelar1] = item1
+                # Pedimos la segunda posición
+                fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
+                columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
+                
+                fila_revelar2 -= 1
+                columna_revelar2 -= 1
 
+                if fila_revelar1 == fila_revelar2 and columna_revelar1 == columna_revelar2:
+                    print("Elige una posición distinta")
+                else:
+                    distinta = True
 
-            print("\nTablero después de revelar la primera posición:")
-            imprimir_tablero(tablero_oculto)
-
-
-            fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): "))
-            columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): "))
-            
-            fila_revelar2 = fila_revelar2 - 1
-            columna_revelar2 =  columna_revelar2 -1
-
-
-            item2 = tablero[fila_revelar2 ][columna_revelar2]
-            tablero_oculto[fila_revelar2][columna_revelar2] = item2
-
-
-            print("\nTablero después de revelar ambas posiciones:")
-            imprimir_tablero(tablero_oculto)
-
-        if not jugador_actual:
-            fila_revelar1 = random.randint(0,filas - 1)
-            columna_revelar1 = random.randint(0,columnas - 1)
-            
-            item1 = tablero[fila_revelar1][columna_revelar1]
-            tablero_oculto[fila_revelar1][columna_revelar1] = item1
-
-            fila_revelar2 = random.randint(0,filas - 1)
-            columna_revelar2 = random.randint(0,columnas - 1)
-            
             item2 = tablero[fila_revelar2][columna_revelar2]
             tablero_oculto[fila_revelar2][columna_revelar2] = item2
 
             print("\nTablero después de revelar ambas posiciones:")
             imprimir_tablero(tablero_oculto)
-            print("Se mostraron las cartas ", fila_revelar1 , "", columna_revelar1, " y ", fila_revelar2 ,"",columna_revelar2)
-        # Verificar si los dos items son iguales
+
+        else:  
+            distinta = False
+            while not distinta:
+                fila_revelar1, columna_revelar1 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+
+                fila_revelar2,  columna_revelar2 = random.randint(0, filas - 1),  random.randint(0, columnas - 1)
+                
+
+                if fila_revelar1 != fila_revelar2 or columna_revelar1 != columna_revelar2:
+                    distinta = True
+            item1, item2 = tablero[fila_revelar1][columna_revelar1], tablero[fila_revelar2][columna_revelar2]
+            tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = item1 , item2
+            
+
+            print("\nTablero después de revelar ambas posiciones (CPU):")
+            imprimir_tablero(tablero_oculto)
+            print("La CPU mostró las cartas en las posiciones (" + str(fila_revelar1 + 1) + ", " + str(columna_revelar1 + 1) + ") y (" + str(fila_revelar2 + 1) + ", " + str(columna_revelar2 + 1) + ")")
+
+
         if item1 == item2:
-            print("Felicidades, pareja encontrada")
+            print("¡Pareja encontrada!")
             if jugador_actual:
                 player_puntuacion += 1
             else:
                 cpu_puntuacion += 1
         else:
             print("Has fallado, se cambia de turno.")
-            tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = "-", "-"
+            tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = "-" , "-"
             jugador_actual = not jugador_actual
                 
         print(Jugador, ": ", player_puntuacion, "        CPU : ", cpu_puntuacion)
+        input("\nPulsa Enter para continuar...")
 
-        
 
-        if player_puntuacion + cpu_puntuacion >= (filas * columnas) // 2 :
+        if player_puntuacion + cpu_puntuacion >= (filas * columnas) // 2:
             print("Juego Terminado")
 
             if player_puntuacion > cpu_puntuacion:
-                print("Felicidades ", Jugador," has ganado con ", player_puntuacion, "puntos")
+                print("¡Felicidades" ,Jugador, ", has ganado con" , player_puntuacion, "puntos!")
             else:
-                print("Has perdido")
-
+                print("La CPU ha ganado")
+                
             SN = input("¿Volver a jugar? S/N: ")
-            if SN == "S":
+            if SN.upper() == "S":
                 opcionjuego()
             else:
                 print("Saliendo del juego...")
                 break
-        enter = input("\nPulsa Enter para continuar...")
+        
+    
 
 
 
@@ -216,7 +225,7 @@ def reglas():
     print("\n\n")
     print("Las partidas son por turnos \nSi el jugador acierta una pareja en su truno, continua \nsi falla perdera el turno \n\nEl jugador que mas puntos tenga cuando se \ndescubra todo el tablero, ganara")
 
-    SN =  input("¿Quieres jugar? S/N: ")
+    SN =  input("¿Quieres jugar? S/N: ").upper()
     if(SN == "S"):
         opcionjuego()
 
@@ -237,7 +246,6 @@ def opcionjuego():
     print(f"{Fore.YELLOW}3 - {Style.BRIGHT}Máquina vs Máquina")
     print(f"{Fore.YELLOW}4 - {Style.BRIGHT}Salir")
 
-    # Línea decorativa al final
     print(f"\n{Fore.CYAN}{'=' * 40}")
     opcion = int(input("que opcion eliges: "))
     while True:
@@ -263,11 +271,11 @@ def opcionjuego():
 
 
 print("Bienvenido a Memory, vamos a crear el tablero lo primero")
-# Solicitamos las dimensiones del tablero
+
 filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
 columnas = int(input("Dime cuántas columnas quieres que tenga el tablero: "))
 
-# Verificamos que la multiplicación de filas y columnas sea par y no sea mayor a 5 x 6 
+
 while (filas * columnas) % 2 != 0 or filas > 5 or columnas > 6:
     if filas > 5 or columnas > 6:
         print("Lo máximo permitido para el tablero es 5 x 6")
@@ -277,8 +285,7 @@ while (filas * columnas) % 2 != 0 or filas > 5 or columnas > 6:
     filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
     columnas = int(input("Dime cuántas columnas quieres que tenga el tablero: "))
 
-# Crea ambos tableros
+
 tablero, tablero_oculto = crear_tablero(filas, columnas)
 
-# Selección de modo de juego
 opcionjuego()
