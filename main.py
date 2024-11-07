@@ -28,9 +28,9 @@ def imprimir_tablero(tablero):
     for fila in tablero:
         for celda in fila:
             if isinstance(celda, int) and celda < 10:
-                print(f"  {celda}", end=" ")
+                print("  " + str(celda), end=" ")
             else:
-                print(f" {celda}", end=" ")
+                print(" " + str(celda), end=" ")
         print()
 
 def jugadorvsjugador():
@@ -92,7 +92,7 @@ def jugadorvsjugador():
             jugador_actual = not jugador_actual
                 
         print(Jugador1, ": ", player1_puntuacion, "        ", Jugador2, ": ", player2_puntuacion)
-
+        input("\nPulsa Enter para continuar...")
         if player1_puntuacion + player2_puntuacion >= (filas * columnas):
             print("Juego Terminado")
 
@@ -107,14 +107,17 @@ def jugadorvsjugador():
             else:
                 print("Saliendo del juego...")
                 break
-        enter = input("\nPulsa Enter para continuar...")
+        
 
 
 def jugadorvscpu():
+
+    # Memoria = {}
+
     Jugador = input("Introduce el nombre del Jugador: ")
     player_puntuacion = 0
     cpu_puntuacion = 0
-    jugador_actual = True  # True para jugador, False para CPU
+    jugador_actual = True
     partida = True
 
     while partida:
@@ -138,7 +141,6 @@ def jugadorvscpu():
                 print("\nTablero después de revelar la primera posición:")
                 imprimir_tablero(tablero_oculto)
 
-                # Selección de la segunda posición
                 while True:
                     fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
                     columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
@@ -162,6 +164,8 @@ def jugadorvscpu():
 
             while not distinta:
                 fila_revelar1, columna_revelar1 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+                item1 = tablero[fila_revelar1][columna_revelar1]
+
                 if tablero_oculto[fila_revelar1][columna_revelar1] == "-":
                     while True:
                         fila_revelar2, columna_revelar2 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
@@ -169,11 +173,11 @@ def jugadorvscpu():
                             distinta = True
                             break
 
-            item1, item2 = tablero[fila_revelar1][columna_revelar1], tablero[fila_revelar2][columna_revelar2]
+            item2 = tablero[fila_revelar2][columna_revelar2]
             tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = item1, item2
             print("\nTablero después de revelar ambas posiciones (CPU):")
             imprimir_tablero(tablero_oculto)
-            print(f"La CPU mostró las cartas en las posiciones ({fila_revelar1 + 1}, {columna_revelar1 + 1}) y ({fila_revelar2 + 1}, {columna_revelar2 + 1})")
+            print("La CPU mostró las cartas en las posiciones (" + str(fila_revelar1 + 1) + ", " + str(columna_revelar1 + 1) + ") y (" + str(fila_revelar2 + 1) + ", " + str(columna_revelar2 + 1) + ")")
 
 
         if item1 == item2:
@@ -193,11 +197,10 @@ def jugadorvscpu():
 
         input("\nPulsa Enter para continuar...")
 
-        # Comprobación de fin de juego
         if player_puntuacion + cpu_puntuacion >= (filas * columnas):
             print("Juego Terminado")
             if player_puntuacion > cpu_puntuacion:
-                print(f"¡Felicidades {Jugador}, has ganado con {player_puntuacion} puntos!")
+                print("¡Felicidades " + Jugador + ", has ganado con " + str(player_puntuacion) + " puntos!")
             else:
                 print("La CPU ha ganado")
                 
@@ -214,7 +217,9 @@ def jugadorvscpu():
 
 
 def cpuvscpu():
-    print("hola")
+    print("hola mundo")
+
+
 
 def reglas(): 
     print("\n\n")
@@ -225,8 +230,6 @@ def reglas():
         opcionjuego()
 
 def opcionjuego():
-    
-# Inicializar colorama
     init(autoreset=True)
 
     # Crear el menú estilizado
