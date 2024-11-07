@@ -212,12 +212,84 @@ def jugadorvscpu():
             break
 
         
-    
-
-
 
 def cpuvscpu():
-    print("hola mundo")
+        
+    cpu1_puntuacion = 0
+    cpu2_puntuacion = 0
+    jugador_actual = True
+    partida = True
+    while partida:
+        if jugador_actual:
+            print("Turno de la máquina 1")
+            distinta = False
+
+            while not distinta:
+                fila_revelar1, columna_revelar1 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+                if tablero_oculto[fila_revelar1][columna_revelar1] == "-":
+                    while True:
+                        fila_revelar2, columna_revelar2 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+                        if (fila_revelar1 != fila_revelar2 or columna_revelar1 != columna_revelar2) and tablero_oculto[fila_revelar2][columna_revelar2] == "-":
+                            distinta = True
+                            break
+
+            item1, item2 = tablero[fila_revelar1][columna_revelar1], tablero[fila_revelar2][columna_revelar2]
+            tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = item1, item2
+            print("\nTablero después de revelar ambas posiciones (CPU 1):")
+            imprimir_tablero(tablero_oculto)
+            print("La CPU 1 mostró las cartas en las posiciones (" + str(fila_revelar1 + 1) + ", " + str(columna_revelar1 + 1) + ") y (" + str(fila_revelar2 + 1) + ", " + str(columna_revelar2 + 1) + ")")
+        else:
+            print("Turno de la máquina 2")
+            distinta = False
+
+            while not distinta:
+                fila_revelar1, columna_revelar1 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+                if tablero_oculto[fila_revelar1][columna_revelar1] == "-":
+                    while True:
+                        fila_revelar2, columna_revelar2 = random.randint(0, filas - 1), random.randint(0, columnas - 1)
+                        if (fila_revelar1 != fila_revelar2 or columna_revelar1 != columna_revelar2) and tablero_oculto[fila_revelar2][columna_revelar2] == "-":
+                            distinta = True
+                            break
+
+            item1, item2 = tablero[fila_revelar1][columna_revelar1], tablero[fila_revelar2][columna_revelar2]
+            tablero_oculto[fila_revelar1][columna_revelar1], tablero_oculto[fila_revelar2][columna_revelar2] = item1, item2
+            print("\nTablero después de revelar ambas posiciones (CPU 2):")
+            imprimir_tablero(tablero_oculto)
+            print("La CPU 2 mostró las cartas en las posiciones (" + str(fila_revelar1 + 1) + ", " + str(columna_revelar1 + 1) + ") y (" + str(fila_revelar2 + 1) + ", " + str(columna_revelar2 + 1) + ")")
+
+        
+        if item1 == item2:
+            print("¡Pareja encontrada!")
+            if jugador_actual:
+                cpu1_puntuacion += 2
+            else:
+                cpu2_puntuacion += 2
+        else:
+            print("Has fallado, se cambia de turno.")
+            tablero_oculto[fila_revelar1][columna_revelar1] = "-"
+            tablero_oculto[fila_revelar2][columna_revelar2] = "-"
+            jugador_actual = not jugador_actual
+        
+        print("CPU 1 : " + str(cpu1_puntuacion) + "        CPU 2 : " + str(cpu2_puntuacion))
+        input("\nPulsa Enter para continuar...")
+            
+
+        
+
+        if cpu1_puntuacion + cpu2_puntuacion >= (filas * columnas):
+            print("Juego Terminado")
+            if cpu1_puntuacion > cpu2_puntuacion:
+                print("Ha ganado la CPU 1 con ", cpu1_puntuacion , " puntos")
+            else:
+                print("Ha ganado la CPU 2 con ", cpu2_puntuacion , " puntos")
+                
+            SN = input("¿Volver a jugar? S/N: ")
+            if SN.upper() == "S":
+                opcionjuego()
+            else:
+                print("Saliendo del juego...")
+                break
+                
 
 
 
