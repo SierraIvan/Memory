@@ -2,7 +2,7 @@ import random
 from colorama import Fore, Style, init
 
 
-
+#metodo para crear la tabla con emgies
 def crear_tablero(filas, columnas):
     lista_emotes = ["🤣", "😉", "😍", "😘", "🤑", "🥵", "🤔", "😎", "😲", "😭", "😞", "😴", "🤒", "🤢", "🥶"]
     lista = []
@@ -17,13 +17,13 @@ def crear_tablero(filas, columnas):
     tablero_oculto = [["-" for _ in range(columnas)] for _ in range(filas)]
 
     return tablero, tablero_oculto
-
+#metodo para mostrar el tablero
 def mostrartablero():
     for fila in tablero:
         for celda in fila:
             print(" ", celda, end=" ")
         print()
-
+#metodo para imprimir tablero, este es el que se usa
 def imprimir_tablero(tablero):
     for fila in tablero:
         for celda in fila:
@@ -33,6 +33,7 @@ def imprimir_tablero(tablero):
                 print(" " + str(celda), end=" ")
         print()
 
+#metodo de juego que se trata de enfrentar una un jugador contra otro
 def jugadorvsjugador():
     Jugador1 = input("Introduce el nombre del Jugador 1: ")
     Jugador2 = input("Introduce el nombre del Jugador 2: ")
@@ -109,7 +110,7 @@ def jugadorvsjugador():
                 break
         
 
-
+#medo de juego para que un jugador juegue contra una maquina
 def jugadorvscpu():
 
     # Memoria = {}
@@ -212,7 +213,7 @@ def jugadorvscpu():
             break
 
         
-
+#modo de juego para que juegue una maquina contra otra
 def cpuvscpu():
         
     cpu1_puntuacion = 0
@@ -292,7 +293,7 @@ def cpuvscpu():
                 
 
 
-
+#metodo que muestra las reglas del juego
 def reglas(): 
     print("\n\n")
     print("Las partidas son por turnos \nSi el jugador acierta una pareja en su truno, continua \nsi falla perdera el turno \n\nEl jugador que mas puntos tenga cuando se \ndescubra todo el tablero, ganara")
@@ -300,7 +301,7 @@ def reglas():
     SN =  input("¿Quieres jugar? S/N: ").upper()
     if(SN == "S"):
         opcionjuego()
-
+#metodo que muestra un menu y elige el modo de juego seleccionado
 def opcionjuego():
     init(autoreset=True)
 
@@ -339,7 +340,7 @@ def opcionjuego():
                 print("Opción no válida. Inténtalo de nuevo.")
                 break
 
-
+#inicio del programa
 print("Bienvenido a Memory, vamos a crear el tablero lo primero")
 
 filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
