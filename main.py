@@ -2,6 +2,22 @@ import random
 from colorama import Fore, Style, init
 
 
+#metodo para pedir como quiere que sea la tabla del juego
+def pedir_dimensiones():
+    while True:
+        filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
+        columnas = int(input("Dime cuántas columnas quieres que tenga el tablero: "))
+
+        if (filas * columnas) % 2 == 0 and filas <= 5 and columnas <= 6:
+            return filas, columnas
+        else:
+            if filas > 5 or columnas > 6:
+                print("Lo máximo permitido para el tablero es 5 x 6.")
+            else:
+                print("La multiplicación de filas x columnas tiene que dar un número par.")
+
+
+
 #metodo para crear la tabla con emgies
 def crear_tablero(filas, columnas):
     lista_emotes = ["🤣", "😉", "😍", "😘", "🤑", "🥵", "🤔", "😎", "😲", "😭", "😞", "😴", "🤒", "🤢", "🥶"]
@@ -17,12 +33,14 @@ def crear_tablero(filas, columnas):
     tablero_oculto = [["-" for _ in range(columnas)] for _ in range(filas)]
 
     return tablero, tablero_oculto
+
 #metodo para mostrar el tablero
-def mostrartablero():
+def mostrartablero(tablero):
     for fila in tablero:
         for celda in fila:
             print(" ", celda, end=" ")
         print()
+        
 #metodo para imprimir tablero, este es el que se usa
 def imprimir_tablero(tablero):
     for fila in tablero:
@@ -34,7 +52,7 @@ def imprimir_tablero(tablero):
         print()
 
 #metodo de juego que se trata de enfrentar una un jugador contra otro
-def jugadorvsjugador():
+def jugadorvsjugador(tablero, tablero_oculto, filas, columnas):
     Jugador1 = input("Introduce el nombre del Jugador 1: ")
     Jugador2 = input("Introduce el nombre del Jugador 2: ")
     player1_puntuacion = 0
@@ -99,8 +117,10 @@ def jugadorvsjugador():
 
             if player1_puntuacion > player2_puntuacion:
                 print("Felicidades ", Jugador1," has ganado con ", player1_puntuacion, "puntos")
-            else:
+            elif player1_puntuacion < player2_puntuacion:
                 print("Felicidades ", Jugador2," has ganado con ", player2_puntuacion, "puntos")
+            else:
+                print("Los 2 jugadores han empatado con ", player1_puntuacion, " puntos")
 
             SN = input("¿Volver a jugar? S/N: ").upper()
             if SN == "S":
@@ -111,7 +131,7 @@ def jugadorvsjugador():
         
 
 #medo de juego para que un jugador juegue contra una maquina
-def jugadorvscpu():
+def jugadorvscpu(tablero, tablero_oculto, filas, columnas):
 
     # Memoria = {}
 
@@ -202,8 +222,10 @@ def jugadorvscpu():
             print("Juego Terminado")
             if player_puntuacion > cpu_puntuacion:
                 print("¡Felicidades " + Jugador + ", has ganado con " + str(player_puntuacion) + " puntos!")
+            elif player_puntuacion < cpu_puntuacion:
+                print("La CPU ha ganado con ", cpu_puntuacion, " puntos")
             else:
-                print("La CPU ha ganado")
+                print("Has empatado con la CPU con ", player_puntuacion ," puntos")
                 
             SN = input("¿Volver a jugar? S/N: ")
             if SN.upper() == "S":
@@ -214,7 +236,7 @@ def jugadorvscpu():
 
         
 #modo de juego para que juegue una maquina contra otra
-def cpuvscpu():
+def cpuvscpu(tablero, tablero_oculto, filas, columnas):
         
     cpu1_puntuacion = 0
     cpu2_puntuacion = 0
@@ -301,7 +323,9 @@ def reglas():
     SN =  input("¿Quieres jugar? S/N: ").upper()
     if(SN == "S"):
         opcionjuego()
+
 #metodo que muestra un menu y elige el modo de juego seleccionado
+
 def opcionjuego():
     init(autoreset=True)
 
@@ -319,44 +343,24 @@ def opcionjuego():
 
     print(f"\n{Fore.CYAN}{'=' * 40}")
     opcion = int(input("que opcion eliges: "))
+    if opcion == 4:
+        print("Saliendo....")
+    else:
+        filas, columnas = pedir_dimensiones()
+        tablero, tablero_oculto = crear_tablero(filas, columnas)
+
     while True:
         match opcion:
             case 0:
                 reglas()
-                break
-            case 1: 
-                jugadorvsjugador()
-                break
+            case 1:
+                jugadorvsjugador(tablero, tablero_oculto, filas, columnas)
             case 2:
-                jugadorvscpu()
-                break
+                jugadorvscpu(tablero, tablero_oculto, filas, columnas)
             case 3:
-                cpuvscpu()
-                break
-            case 4:
-                print("Saliendo del juego...")
-                break
+                cpuvscpu(tablero, tablero_oculto, filas, columnas)
             case _:
-                print("Opción no válida. Inténtalo de nuevo.")
-                break
+                print("Opción no válida")
 
-#inicio del programa
-print("Bienvenido a Memory, vamos a crear el tablero lo primero")
-
-filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
-columnas = int(input("Dime cuántas columnas quieres que tenga el tablero: "))
-
-
-while (filas * columnas) % 2 != 0 or filas > 5 or columnas > 6:
-    if filas > 5 or columnas > 6:
-        print("Lo máximo permitido para el tablero es 5 x 6")
-    else:
-        print("La multiplicación de filas x columnas tiene que dar par")
-    
-    filas = int(input("Dime cuántas filas quieres que tenga el tablero: "))
-    columnas = int(input("Dime cuántas columnas quieres que tenga el tablero: "))
-
-
-tablero, tablero_oculto = crear_tablero(filas, columnas)
 
 opcionjuego()
