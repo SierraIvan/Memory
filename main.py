@@ -46,7 +46,7 @@ def imprimir_tablero(tablero):
     for fila in tablero:
         for celda in fila:
             if isinstance(celda, int) and celda < 10:
-                print("  " + str(celda), end=" ")
+                print(" sdad " + str(celda), end=" ")
             else:
                 print(" " + str(celda), end=" ")
         print()
@@ -70,9 +70,13 @@ def jugadorvsjugador(tablero, tablero_oculto, filas, columnas):
 
         distinta = False
         while not distinta:
+            
             fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
             columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
-
+            while fila_revelar1 > filas or fila_revelar1 < 0 or columna_revelar1 > columnas - 1 or columna_revelar1 < 0:
+                print("Introduce posiciones validas")
+                fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
+                columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
             if tablero_oculto[fila_revelar1][columna_revelar1] != "-":
                 print("Esa posición ya ha sido descubierta. Elige otra.")
                 continue
@@ -84,9 +88,13 @@ def jugadorvsjugador(tablero, tablero_oculto, filas, columnas):
             imprimir_tablero(tablero_oculto)
 
             while True:
+                
                 fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
                 columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
-
+                while fila_revelar2 > filas or fila_revelar2 < 0 or columna_revelar2 > columnas - 1 or columna_revelar2 < 0:
+                    print("Introduce una posicion valida")
+                    fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
+                    columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
                 if (fila_revelar1 == fila_revelar2 and columna_revelar1 == columna_revelar2) or tablero_oculto[fila_revelar2][columna_revelar2] != "-":
                     print("Esa posición es la misma o ya ha sido descubierta. Elige otra.")
                 else:
@@ -127,7 +135,7 @@ def jugadorvsjugador(tablero, tablero_oculto, filas, columnas):
                 opcionjuego()
             else:
                 print("Saliendo del juego...")
-                break
+                partida = False
         
 
 #medo de juego para que un jugador juegue contra una maquina
@@ -153,6 +161,10 @@ def jugadorvscpu(tablero, tablero_oculto, filas, columnas):
                 fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
                 columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
 
+                while fila_revelar1 > filas or fila_revelar1 < 0 or columna_revelar1 > columnas - 1 or columna_revelar1 < 0:
+                    print("Introduce posiciones validas")
+                    fila_revelar1 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
+                    columna_revelar1 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
                 if tablero_oculto[fila_revelar1][columna_revelar1] != "-":
                     print("Esa posición ya ha sido descubierta. Elige otra.")
                     continue
@@ -165,6 +177,11 @@ def jugadorvscpu(tablero, tablero_oculto, filas, columnas):
                 while True:
                     fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
                     columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
+
+                    while fila_revelar2 > filas or fila_revelar2 < 0 or columna_revelar2 > columnas - 1 or columna_revelar2 < 0:
+                        print("Introduce una posicion valida")
+                        fila_revelar2 = int(input("\nIntroduce la fila para revelar (1 - " + str(filas) + "): ")) - 1
+                        columna_revelar2 = int(input("Introduce la columna para revelar (1 - " + str(columnas) + "): ")) - 1
 
                     if (fila_revelar1 == fila_revelar2 and columna_revelar1 == columna_revelar2) or tablero_oculto[fila_revelar2][columna_revelar2] != "-":
                         print("Esa posición es la misma o ya ha sido descubierta. Elige otra.")
@@ -232,7 +249,7 @@ def jugadorvscpu(tablero, tablero_oculto, filas, columnas):
                 opcionjuego()
             else:
                 print("Saliendo del juego...")
-            break
+                partida = False
 
         
 #modo de juego para que juegue una maquina contra otra
@@ -303,15 +320,16 @@ def cpuvscpu(tablero, tablero_oculto, filas, columnas):
             print("Juego Terminado")
             if cpu1_puntuacion > cpu2_puntuacion:
                 print("Ha ganado la CPU 1 con ", cpu1_puntuacion , " puntos")
-            else:
+            elif cpu1_puntuacion < cpu2_puntuacion:
                 print("Ha ganado la CPU 2 con ", cpu2_puntuacion , " puntos")
-                
+            else:
+                print("Las 2 maquinas han empatado con ", cpu1_puntuacion, " puntos")
             SN = input("¿Volver a jugar? S/N: ")
             if SN.upper() == "S":
                 opcionjuego()
             else:
                 print("Saliendo del juego...")
-                break
+                partida = False
                 
 
 
